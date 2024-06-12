@@ -10,12 +10,44 @@
 
 export function minBy(array, cb) {
   // Your code goes here...
+  let min = null;
+  if (array.length > 0) {
+    
+    for (let element of array) {
+      let currCb = cb(element);
+ 
+      if (array.indexOf(element) == 0) {
+        min  = currCb;
+        } else if (currCb < min) {
+          min  = currCb;
+      }
+    }
+  
+    console.log(`Min: ${min}`);
 
+    return array.find(element => cb(element) == min);
+  }
 }
 
 export function maxBy(array, cb) {
   // Your code goes here...
+  let max = null;
+  if (array.length > 0) {
+    
+    for (let element of array) {
+      let currCb = cb(element);
 
+      if (array.indexOf(element) == 0) {
+        max  = currCb;
+        } else if (currCb > max) {
+          max  = currCb;
+      }
+    }
+  
+    console.log(`Max: ${max}`);
+
+    return array.find(element => cb(element) == max);
+  }
 }
 
 

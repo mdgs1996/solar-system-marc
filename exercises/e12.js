@@ -6,6 +6,12 @@ import { data } from "../data/data";
 
 export function allPlanetsMoonsCount(data) {
   // Your code goes here...
+  return data.planets.filter(function(planet) {
+      return typeof planet.moons !== "undefined"
+    })
+    .reduce(function(acc, planet) {
+      return acc + planet.moons.length;
+    }, 0);
 }
 
 
