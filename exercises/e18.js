@@ -9,51 +9,33 @@ export function getGreatestDiscoveryYear(data) {
   // Your code goes here...
   // feel free to import your `maxBy` or `minBy` methods from previous lessons
 
-  // discoveryArr = [ {discoveryYear, discoveryCount} ]
-  // cb = discoveryCount
-  // 1. Map the given data to represent the discoveryYear.
-  // 2. For each element in the new array, filter the asteroids based on selected discovery year and record the discoveryCount.
-  // 3. Map the discoveryCount to the appropriate discoveryYear.
-  // 4. run maxBy(discoveryArr, discovered.count)
-
-  function Discovery(discoveryYear, frequency) {
-    this.discoveryYear = discoveryYear;
-    this.frequency = frequency;
-  }
+  // This exercise broke me 🙃
 
   let yearsDiscovered = [];
-  let discoveryFrequencyMap = [];
-    
-  //Get all years
-  yearsDiscovered = data.asteroids.map(function(asteroid) {
-    return asteroid.discoveryYear;
+  // Get all years (avoid adding duplicate years)
+  data.asteroids.map(function(asteroid) {
+    let discoveryYear = asteroid.discoveryYear; 
+    if (!yearsDiscovered.includes(discoveryYear)) {
+      yearsDiscovered.push(discoveryYear);
+    }
   });
-  console.log(`Years Discovered: ${yearsDiscovered}`)
+  // ☝️ Here, nothing is being returned despite there being a map method, yet it does what I expect it to do: populate yearsDiscovered with all unique years. 
+  // Is doing this acceptable though? I found it extremely hard finding another way without using for loops..
 
-  //Dedupe
-  yearsDiscovered = yearsDiscovered.map((year) => {
-      console.log(`Year: ${year}`)
-      
+  // Map year to frequency of asteroids discovered ( [ { year: #, frequency: # } ] )
+  let discoveryFrequencyMap = yearsDiscovered.map(year => {
       let frequency = data.asteroids.filter(function(asteroid) {
         return asteroid.discoveryYear == year;
       }).length;
 
-      
-      let discovery = new Discovery(year, frequency);
-      // console.log(`Discovered Asteroids for year ${discovery.discoveryYear}: ${discovery.frequency}`)
-
-      if ( !discoveryFrequencyMap.includes(year) ) {
-        discoveryFrequencyMap.push(new Discovery(year, frequency));
-        
-        console.log(discoveryFrequencyMap.length)
+      return {
+        discoveryYear: year,
+        frequency: frequency
       }
-      
-    });
+  });
 
-  // for (const discovery of discoveryFrequencyMap) {
-  //   console.log (`Discovered Asteroids for year ${discovery.discoveryYear}: ${discovery.frequency}`);
-  // }
-  
+  let mostFrequentDiscoveries = maxBy(discoveryFrequencyMap, (discovery) => discovery.frequency);
+  return mostFrequentDiscoveries.discoveryYear;
 }
 
 // === TEST YOURSELF ===

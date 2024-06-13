@@ -22,8 +22,6 @@ export function minBy(array, cb) {
           min  = currCb;
       }
     }
-  
-    console.log(`Min: ${min}`);
 
     return array.find(element => cb(element) == min);
   }
@@ -43,8 +41,6 @@ export function maxBy(array, cb) {
           max  = currCb;
       }
     }
-  
-    console.log(`Max: ${max}`);
 
     return array.find(element => cb(element) == max);
   }
