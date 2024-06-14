@@ -6,15 +6,8 @@ import { data } from "../data/data";
 
 export function findPlanetNameByMoon(data, moonName) {
   // Your code goes here...
-
- let result = data.planets.filter(function(planet) {
-    return typeof planet.moons !=="undefined" && planet.moons.includes(moonName);
-  })
-  .map(function(planet) { 
-    return planet.name;
-  });
-
-  return result[0];
+  return data.planets.filter((planet) => typeof planet.moons !== "undefined" && planet.moons.includes(moonName))
+    .map((planet) => planet.name)[0];
 }
 
 

@@ -3,39 +3,25 @@
  * Return the year with the greatest number of Asteroids discoveries
  * Return example: 1902
  */
-import { maxBy } from "./e17";
-
 export function getGreatestDiscoveryYear(data) {
   // Your code goes here...
   // feel free to import your `maxBy` or `minBy` methods from previous lessons
+  const yearCounts = data.asteroids.reduce((counts, asteroid) => {
+    const discoveryYear = asteroid.discoveryYear;
+    counts[discoveryYear] = ( counts[discoveryYear] || 0 ) + 1; // counts is the map of years to frequency. It is 0 if the value can't be found for the given year in the array.
+    return counts;
+  }, {}); // Make the accumulator's starting value as an empty object. Returning counts for a given year adds a new object to the array.
 
-  // This exercise broke me 🙃
-
-  let yearsDiscovered = [];
-  // Get all years (avoid adding duplicate years)
-  data.asteroids.map(function(asteroid) {
-    let discoveryYear = asteroid.discoveryYear; 
-    if (!yearsDiscovered.includes(discoveryYear)) {
-      yearsDiscovered.push(discoveryYear);
+  let maxYear = null;
+  let maxCount = 0;
+  for (const year in yearCounts) {
+    if (yearCounts[year] > maxCount) {
+      maxCount = yearCounts[year];
+      maxYear = parseInt(year);
     }
-  });
-  // ☝️ Here, nothing is being returned despite there being a map method, yet it does what I expect it to do: populate yearsDiscovered with all unique years. 
-  // Is doing this acceptable though? I found it extremely hard finding another way without using for loops..
+  }
 
-  // Map year to frequency of asteroids discovered ( [ { year: #, frequency: # } ] )
-  let discoveryFrequencyMap = yearsDiscovered.map(year => {
-      let frequency = data.asteroids.filter(function(asteroid) {
-        return asteroid.discoveryYear == year;
-      }).length;
-
-      return {
-        discoveryYear: year,
-        frequency: frequency
-      }
-  });
-
-  let mostFrequentDiscoveries = maxBy(discoveryFrequencyMap, (discovery) => discovery.frequency);
-  return mostFrequentDiscoveries.discoveryYear;
+  return maxYear;
 }
 
 // === TEST YOURSELF ===
